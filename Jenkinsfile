@@ -4,7 +4,8 @@ pipeline {
     environment {
         IMAGE_NAME = "news-portal:latest"
         CONTAINER_NAME = "news-portal-container"
-        BUILD_CONTEXT = "." // can change to "./docker-build" if you move Dockerfile & index.html
+        BUILD_CONTEXT = "." // Dockerfile location
+        DOCKER_BUILDKIT = "0" // MUST be string for Windows CMD
     }
 
     stages {
@@ -26,8 +27,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "🖼 Building Docker image"
-                // Disable BuildKit to fix RST_STREAM error
-                bat 'set DOCKER_BUILDKIT=0 && docker build --no-cache -t %IMAGE_NAME% %BUILD_CONTEXT%'
+                // Windows CMD friendly
+                bat 'docker build --no-cache -t %IMAGE_NAME% %BUILD_CONTEXT%'
             }
         }
 
@@ -44,9 +45,7 @@ pipeline {
         stage('Run New Container') {
             steps {
                 echo "🏃 Running new container"
-                bat """
-                docker run -d -p 9090:80 --name %CONTAINER_NAME% %IMAGE_NAME%
-                """
+                bat 'docker run -d -p 9090:80 --name %CONTAINER_NAME% %IMAGE_NAME%'
             }
         }
     }
