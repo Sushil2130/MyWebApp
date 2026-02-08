@@ -19,50 +19,45 @@ pipeline {
         stage('Test Docker') {
             steps {
                 echo "🛠 Checking Docker installation"
-                bat '''
-                docker version
-                docker info
-                '''
+                bat "docker version"
+                bat "docker info"
             }
         }
 
-        stage('Build Docker Image (No Cache)') {
+        stage('Build Docker Image') {
             steps {
                 echo "🖼 Building Docker image"
-                bat '''
+                bat """
                 docker build --no-cache -t %IMAGE_NAME% .
-                '''
+                """
             }
         }
 
         stage('Stop Old Container') {
             steps {
-                echo "🛑 Stopping old container if exists"
-                bat '''
-                docker ps -a -q --filter "name=%CONTAINER_NAME%" > tmp.txt
-                set /p CID=<tmp.txt
-                if NOT "%CID%"=="" docker rm -f %CONTAINER_NAME%
-                del tmp.txt
-                '''
+                echo "🛑 Stopping old container (if exists)"
+                bat """
+                docker rm -f %CONTAINER_NAME% || echo No old container found
+                """
             }
         }
 
         stage('Run New Container') {
             steps {
-                echo "🚀 Running new container"
-                bat '''
+                echo "🚀 Running new container on port %PORT%"
+                bat """
                 docker run -d -p %PORT%:80 --name %CONTAINER_NAME% %IMAGE_NAME%
-                '''
+                """
             }
         }
     }
 
     post {
         success {
-            echo "✅ Latest News Portal deployed successfully on PORT %PORT%"
+            echo "✅ News Portal deployed successfully on http://localhost:%PORT%"
         }
         failure {
-            echo "❌ Docker build or run failed. Check logs above!"
+            echo "❌ Pipeline failed. Check the logs above!"
         }
     }
 }
