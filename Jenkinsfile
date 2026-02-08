@@ -5,7 +5,7 @@ pipeline {
         IMAGE_NAME = "news-portal:latest"
         CONTAINER_NAME = "news-portal-container"
         BUILD_CONTEXT = "." // Dockerfile location
-        DOCKER_BUILDKIT = "0" // MUST be string for Windows CMD
+        DOCKER_BUILDKIT = "0" // Must be string for Windows CMD
     }
 
     stages {
@@ -27,7 +27,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo "🖼 Building Docker image"
-                // Windows CMD friendly
                 bat 'docker build --no-cache -t %IMAGE_NAME% %BUILD_CONTEXT%'
             }
         }
@@ -35,17 +34,17 @@ pipeline {
         stage('Stop Old Container') {
             steps {
                 echo "🛑 Stopping old container if exists"
-                bat """
-                docker stop %CONTAINER_NAME% || echo No running container
-                docker rm %CONTAINER_NAME% || echo No container to remove
-                """
+                bat '''
+                docker stop %CONTAINER_NAME% || exit 0
+                docker rm %CONTAINER_NAME% || exit 0
+                '''
             }
         }
 
         stage('Run New Container') {
             steps {
                 echo "🏃 Running new container"
-                bat 'docker run -d -p 9090:80 --name %CONTAINER_NAME% %IMAGE_NAME%'
+                bat 'docker run -d -p 9090:3000 --name %CONTAINER_NAME% %IMAGE_NAME%'
             }
         }
     }
