@@ -1,10 +1,278 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My First Web App</title>
+<meta charset="UTF-8">
+<title>Vintage News Network</title>
+
+<style>
+body{
+    margin:0;
+    background:#efe6cf;
+    font-family:"Times New Roman", serif;
+    color:#2b2b2b;
+}
+.hidden{display:none}
+
+/* LOGIN PAGE */
+#loginPage{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.login-card{
+    border:3px double #2b2b2b;
+    padding:30px;
+    width:350px;
+    background:#f5edd6;
+    text-align:center;
+}
+.login-card h1{
+    letter-spacing:3px;
+}
+.login-card input{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+}
+.login-card button{
+    padding:10px;
+    width:100%;
+    background:#2b2b2b;
+    color:#efe6cf;
+    border:none;
+    cursor:pointer;
+}
+
+/* HEADER */
+header{
+    text-align:center;
+    padding:25px;
+    border-bottom:4px double #2b2b2b;
+}
+header h1{
+    font-size:50px;
+    letter-spacing:4px;
+}
+
+/* NAV */
+nav{
+    background:#2b2b2b;
+    color:#efe6cf;
+    display:flex;
+    justify-content:space-around;
+    padding:10px;
+}
+nav a{
+    color:#efe6cf;
+    text-decoration:none;
+}
+
+/* CONTENT */
+.container{
+    padding:30px;
+}
+.section{
+    margin-bottom:60px;
+}
+.section h2{
+    border-bottom:3px solid #2b2b2b;
+}
+
+/* NEWS */
+.news-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:25px;
+}
+.article{
+    border:1px solid #2b2b2b;
+    padding:15px;
+    background:#f8f1dc;
+}
+.article img{
+    width:100%;
+    height:160px;
+    object-fit:cover;
+    border:1px solid #2b2b2b;
+}
+
+/* POST */
+.post-box input, .post-box textarea{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+}
+.post-box button{
+    margin-top:10px;
+    padding:10px 20px;
+    background:#2b2b2b;
+    color:#efe6cf;
+    border:none;
+}
+.deleteBtn{
+    background:darkred;
+    color:white;
+    border:none;
+    padding:5px 10px;
+    cursor:pointer;
+    margin-top:8px;
+}
+
+/* FOOTER */
+footer{
+    background:#2b2b2b;
+    color:#efe6cf;
+    padding:30px;
+}
+.footer-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:20px;
+}
+</style>
 </head>
+
 <body>
-    <h1>Hello World 🚀</h1>
-    <p>This page is deployed using Docker and Jenkins.</p>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage">
+    <div class="login-card">
+        <h1>VINTAGE NEWS</h1>
+        <p>Reader Login</p>
+        <input id="username" placeholder="Username">
+        <input type="password" placeholder="Password">
+        <button onclick="login()">Enter Newspaper</button>
+    </div>
+</div>
+
+<!-- MAIN PAGE -->
+<div id="mainPage" class="hidden">
+
+<header>
+<h1 id="paperName">THE VINTAGE HERALD</h1>
+<p id="welcome"></p>
+</header>
+
+<nav>
+<a href="#national">National</a>
+<a href="#international">International</a>
+<a href="#post">Publish News</a>
+<a href="#contact">Contact</a>
+</nav>
+
+<div class="container">
+
+<!-- NATIONAL -->
+<div class="section" id="national">
+<h2>National News</h2>
+<div class="news-grid">
+<div class="article">
+<img src="https://picsum.photos/400/200?1">
+<h3>Government Reform</h3>
+<p>New administrative reforms promise transparency and efficiency.</p>
+</div>
+<div class="article">
+<img src="https://picsum.photos/400/200?2">
+<h3>Education Update</h3>
+<p>Curriculum modernization aims to prepare future workforce.</p>
+</div>
+</div>
+</div>
+
+<!-- INTERNATIONAL -->
+<div class="section" id="international">
+<h2>International News</h2>
+<div class="news-grid">
+<div class="article">
+<img src="https://picsum.photos/400/200?3">
+<h3>Global Economy</h3>
+<p>Markets react cautiously to policy changes.</p>
+</div>
+<div class="article">
+<img src="https://picsum.photos/400/200?4">
+<h3>World Diplomacy</h3>
+<p>Leaders meet to discuss climate and peace.</p>
+</div>
+</div>
+</div>
+
+<!-- POST -->
+<div class="section" id="post">
+<h2>Publish Your News</h2>
+<div class="post-box">
+<input id="newsTitle" placeholder="News Title">
+<textarea id="newsContent" placeholder="Write news here..."></textarea>
+<button onclick="publish()">Publish</button>
+</div>
+
+<div id="myNews" class="news-grid"></div>
+</div>
+
+<!-- CONTACT -->
+<div class="section" id="contact">
+<h2>Contact Us</h2>
+<p>Email: editor@vintagenews.com</p>
+<p>Phone: +977-9848944178</p>
+<p>Office: Kathmandu, Nepal</p>
+</div>
+
+</div>
+
+<footer>
+<div class="footer-grid">
+<div>
+<h3>About</h3>
+<p>Independent vintage-style journalism platform.</p>
+</div>
+<div>
+<h3>Categories</h3>
+<p>Politics<br>Society<br>World<br>Opinion</p>
+</div>
+<div>
+<h3>Follow</h3>
+<p>Facebook<br>Twitter<br>Instagram</p>
+</div>
+</div>
+<p style="text-align:center;margin-top:20px;">© 2026 Vintage News Network</p>
+</footer>
+
+</div>
+
+<script>
+let currentUser="";
+
+function login(){
+    const u=document.getElementById("username").value;
+    if(!u) return;
+    currentUser=u;
+    document.getElementById("loginPage").classList.add("hidden");
+    document.getElementById("mainPage").classList.remove("hidden");
+    document.getElementById("welcome").innerText="Welcome, "+u;
+
+    // Different newspaper names
+    document.getElementById("paperName").innerText =
+    u.length%2===0 ? "THE GLOBAL CHRONICLE" : "THE VINTAGE HERALD";
+}
+
+function publish(){
+    const t=document.getElementById("newsTitle").value;
+    const c=document.getElementById("newsContent").value;
+    if(!t||!c) return;
+
+    const div=document.createElement("div");
+    div.className="article";
+    div.innerHTML=`
+    <img src="https://picsum.photos/400/200?random=${Math.random()}">
+    <h3>${t}</h3>
+    <p>${c}</p>
+    <button class="deleteBtn" onclick="this.parentElement.remove()">Delete</button>
+    `;
+    document.getElementById("myNews").prepend(div);
+    document.getElementById("newsTitle").value="";
+    document.getElementById("newsContent").value="";
+}
+</script>
+
 </body>
 </html>
